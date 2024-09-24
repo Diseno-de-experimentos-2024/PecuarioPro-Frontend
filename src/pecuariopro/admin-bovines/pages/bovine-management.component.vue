@@ -8,12 +8,14 @@ import {BreedsApiService} from "../services/breeds-api.service.js";
 import {DepartmentsApiService} from "../../../shared/services/origin/departments-api.service.js";
 import {CitiesApiService} from "../../../shared/services/origin/cities-api.service.js";
 import {DistrictsApiService} from "../../../shared/services/origin/districts-api.service.js";
+import VaccineItemCreateAndEdit from "../../vaccines/components/vaccine-create-and-edit.component.vue";
+import BovineAdminVaccines from "../components/bovine-admin-vaccines.component.vue";
 // import RegisterAndUpdateBovineComponent from "../components/register-and-update-bovine.component.vue";
 // import RegisterAndUpdateBovine from "../components/register-and-update-bovine.component.vue";
 
 export default {
   name: "bovine-management",
-  components: { BovineCreateAndEdit,DataManager},
+  components: {BovineAdminVaccines, VaccineItemCreateAndEdit, BovineCreateAndEdit,DataManager},
   props:{
     batchId:null
   },
@@ -39,6 +41,7 @@ export default {
       cityService:null,
       districtService:null,
       isVisibleCard: false,
+      isVisibleVaccine:false,
       isEdit: false,
       submitted: false,
       screenSize: window.innerWidth
@@ -86,6 +89,10 @@ export default {
       return this.bovines.findIndex((bovine) => bovine.id === id);
     },
 
+    onAdminVaccineEventHandler(bovine) {
+      this.bovine = bovine;
+      this.isVisibleVaccine = true;
+    },
     onNewItemEventHandler() {
       this.bovine = {};
       this.submitted = false;
@@ -181,11 +188,24 @@ export default {
 
     updateBovine() {
      // this.bovine.origin=this.origin;
-      this.bovine = Bovine.fromDisplayableBovine(this.bovine);
+      console.log("soy bovino en actualiza",this.bovine);
+
+      this.breed = this.breeds.find(breed => breed.name === this.bovine.breed);
+      this.department=this.departments.find(department=>department.name === this.bovine.origin.department);
+      this.city=this.cities.find(city => city.name===this.bovine.origin.city);
+      this.district=this.districts.find(district => district.name === this.bovine.origin.district);
+
+      this.bovine = Bovine.fromDisplayableBovine(this.bovine,this.breed.id,this.department.id,this.city.id,this.district.id);
+      console.log("soy bovino en actualiza 2",this.bovine);
+
       this.bovineService.update(this.bovine.id, this.bovine)
           .then((response)=>{
+            const originBovine = response.data.origin;
+            const breedBovine = response.data.breed;
             this.bovines[this.findIndexById(response.data.id)] =
-                Bovine.toDisplayableBovine(response.data);
+                Bovine.toDisplayableBovine(response.data,originBovine,breedBovine);
+            console.log("soy bovino en actualiza 3",this.bovine);
+
             this.notifySuccessfulAction("Bovine Updated");
           });
     },
@@ -250,6 +270,8 @@ export default {
         <pv-button icon="pi pi-pencil" text class="mr-2" @click="onEditItemEventHandler(slotProps.data)" />
 <!--        <pv-button icon="pi pi-eye" text class="mr-2" @click="onViewItemEventHandler(slotProps.data)" /> &lt;!&ndash; Nuevo botón &ndash;&gt;-->
         <pv-button icon="pi pi-trash" text severity="danger" @click="onDeleteItemEventHandler(slotProps.data)" />
+        <pv-button text class="mr-2"  label="Vaccines" @click="onAdminVaccineEventHandler(slotProps.data)" />
+
       </template>
     </data-manager>
     </div>
@@ -260,6 +282,8 @@ export default {
       :visible="isVisibleCard"
       v-on:canceled="onCanceledEventHandler"
       v-on:saved2="onSavedEventHandler($event)"/>
+
+    <bovine-admin-vaccines :bovineId="bovine.id" :visible="isVisibleVaccine"/>
 
 
   </div>

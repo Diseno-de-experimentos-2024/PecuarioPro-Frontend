@@ -6,16 +6,7 @@ export default {
   name: "vaccine-item-create-and-edit",
   components: {createAndEdit},
   props: {
-    item: {
-      type: Object,
-      default: () => ({
-        name: '',
-        code: '',
-        reason: '',
-        date: '',
-        status: ''
-      })
-    },
+    item: null,
     visible: Boolean,
     statuses: Array
   },

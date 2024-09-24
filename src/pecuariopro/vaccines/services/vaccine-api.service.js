@@ -10,6 +10,14 @@ export class VaccinesApiService {
         return http.get(`/vaccines/${id}`);
     }
 
+    getAllByBovineId(bovineId){
+        return http.get(`/vaccines/bovines/${bovineId}`);
+    }
+
+    getAllByUserId(userId){
+        return http.get(`/vaccines/users/${userId}`);
+    }
+
     create(vaccineResource, authToken) {
         return http.post('/vaccines', vaccineResource, {
             headers: {
@@ -29,6 +37,30 @@ export class VaccinesApiService {
     delete(id) {
         return http.delete(`/vaccines/${id}`);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     getVaccinesGroupedByYear() {
         return this.getAll().then(response => {

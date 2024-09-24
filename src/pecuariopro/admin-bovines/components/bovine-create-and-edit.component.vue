@@ -257,6 +257,7 @@ export default {
             <!--              <pv-input-text id="race" v-model="this.item.breed" :class="{'p-invalid': submitted && !this.item.race}"/>-->
             <!--              <small v-if="submitted && !this.item.breed" class="p-invalid">Breed is required.</small>-->
             <!--            </pv-float-label>-->
+
             <pv-dropdown v-model="this.item.breed" :options="this.breeds" filter placeholder="Select a Breed" >
               <template #value="slotProps">
                 <div v-if="slotProps.value" class="flex align-items-center">
@@ -272,6 +273,8 @@ export default {
                 </div>
               </template>
             </pv-dropdown>
+
+
           </div>
 
           <div class="field mt-3 container-field">

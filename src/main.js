@@ -59,6 +59,7 @@ import SplitButton from "primevue/splitbutton";
 import Badge from 'primevue/badge';
 import ProgressBar from 'primevue/progressbar';
 
+
 const firebaseConfig = {
     /*apiKey: "AIzaSyBGQMuUsRAs93CevEn84uHD7zO21kM3v_k",
     authDomain: "pecuariopro-98bb9.firebaseapp.com",

@@ -31,6 +31,11 @@ export class BovinesApiService{
         return http.post(`/bovines/${id}/add-images`,imgUrl);
     }
 
+    getAllBovinesByUserId(userId){
+        return http.get(`/bovines/users/${userId}`);
+    }
+
+
     getBovinesGroupedByBatchId() {
         return this.getAll().then(response => {
             const bovines = response.data;

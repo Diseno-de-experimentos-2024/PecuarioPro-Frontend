@@ -25,6 +25,7 @@ export default {
     }
   },
   created() {
+    this.isVisibleCard=this.visible;
     this.vaccineService= new VaccinesApiService();
     this.vaccineService.getAllByBovineId(this.bovineId).then((response) => {
       this.vaccines = response.data;
@@ -35,6 +36,9 @@ export default {
   methods:{
     notifySuccessfulAction(message){
       this.$toast.add({severity:"success",summary: "Success",detail: message, life: 3000});
+    },
+    closeDialog(){
+      this.$emit('close');
     },
     getDialogStyle() {
       let dialogStyle = defaultStyle;
@@ -92,7 +96,10 @@ export default {
 
 <template>
   <pv-toast/>
-  <pv-dialog v-bind:visible="visible" :modal="true" class="p-fluid" :style="getDialogStyle()">
+  <pv-dialog v-bind:visible="visible" :modal="true" class="p-fluid"  :style="getDialogStyle()">
+    <div class="btn-header-container">
+      <pv-button class="btn-header" text label="Close" severity="danger" @click="closeDialog" ></pv-button>
+    </div>
     <pv-toolbar class="toolbar">
       <template #start>
         <p>Vaccination record</p>
@@ -157,7 +164,13 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-
+.btn-header-container{
+  display:flex;
+  justify-content: end;
+}
+.btn-header-container .btn-header{
+  width:100px;
+}
 .btn-action{
   width:100px;
 }

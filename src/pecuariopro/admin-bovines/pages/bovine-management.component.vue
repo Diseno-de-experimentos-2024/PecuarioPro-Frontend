@@ -91,7 +91,10 @@ export default {
 
     onAdminVaccineEventHandler(bovine) {
       this.bovine = bovine;
-      this.isVisibleVaccine = true;
+      this.isVisibleVaccine = !this.isVisibleVaccine;
+    },
+    closeVaccineRegistration(){
+      this.isVisibleVaccine = false;
     },
     onNewItemEventHandler() {
       this.bovine = {};
@@ -283,7 +286,7 @@ export default {
       v-on:canceled="onCanceledEventHandler"
       v-on:saved2="onSavedEventHandler($event)"/>
 
-    <bovine-admin-vaccines :bovineId="bovine.id" :visible="isVisibleVaccine"/>
+    <bovine-admin-vaccines :bovineId="bovine.id" :visible="isVisibleVaccine" v-on:close="closeVaccineRegistration"/>
 
 
   </div>

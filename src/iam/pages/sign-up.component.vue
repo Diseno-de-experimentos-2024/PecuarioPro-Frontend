@@ -61,9 +61,9 @@ export default {
       authenticationStore.signUp(signUpRequest, this.$router);
     },
     checkPasswordStrength() {
-      this.hasUpperCase = /[A-Z]/.test(this.password);
+     /* this.hasUpperCase = /[A-Z]/.test(this.password);
       this.hasLowerCase = /[a-z]/.test(this.password);
-      this.hasNumber = /[0-9]/.test(this.password);
+      this.hasNumber = /[0-9]/.test(this.password);*/
     }
   }
 }

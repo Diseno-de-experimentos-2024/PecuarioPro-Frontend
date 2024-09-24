@@ -5,6 +5,7 @@ import {BreedsApiService} from "../services/breeds-api.service.js";
 import {DepartmentsApiService} from "../../../shared/services/origin/departments-api.service.js";
 import {CitiesApiService} from "../../../shared/services/origin/cities-api.service.js";
 import {DistrictsApiService} from "../../../shared/services/origin/districts-api.service.js";
+import {useAuthenticationStore} from "../../../iam/services/authentication.store.js";
 
 export default {
   name: "bovine-create-and-edit.component",
@@ -139,6 +140,11 @@ export default {
       this.item.date=fullDate.toISOString().split('T')[0];
       this.item.origin = this.item2;
       this.item.batchId = this.$route.params.batchId;
+
+      const authenticationStore = useAuthenticationStore();
+      this.item.userId = authenticationStore.currentUserId;
+
+
       console.log(this.item);
     },
     deleteExistingImage(index) {

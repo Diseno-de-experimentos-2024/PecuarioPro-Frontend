@@ -1,7 +1,7 @@
 import { Origin } from "./origin.entity.js";
 
 export class Bovine {
-    constructor(id,bovineIdentifier, name, breedId, weight, date, departmentId,cityId,districtId, observations, batchId, imgUrls) {
+    constructor(id,bovineIdentifier, name, breedId, weight, date, departmentId,cityId,districtId, observations, batchId,userId, imgUrls) {
         this.id = id;
         this.bovineIdentifier = bovineIdentifier;
         this.name = name;
@@ -13,6 +13,7 @@ export class Bovine {
         this.districtId = districtId;
         this.observations = observations;
         this.batchId = batchId;
+        this.userId = userId;
         this.imgUrls = imgUrls;
     }
 
@@ -29,6 +30,7 @@ export class Bovine {
             districtId,
             displayableBovine.observations,
             displayableBovine.batchId,
+            displayableBovine.userId,
             displayableBovine.imgUrls
         );
     }
@@ -44,6 +46,7 @@ export class Bovine {
             origin: origin,
             observations: bovine.observations,
             batchId: bovine.batchId,
+            userId: bovine.userId,
             imgUrls: bovine.imgUrls
         };
     }

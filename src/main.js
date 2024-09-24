@@ -60,12 +60,18 @@ import Badge from 'primevue/badge';
 import ProgressBar from 'primevue/progressbar';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBGQMuUsRAs93CevEn84uHD7zO21kM3v_k",
+    /*apiKey: "AIzaSyBGQMuUsRAs93CevEn84uHD7zO21kM3v_k",
     authDomain: "pecuariopro-98bb9.firebaseapp.com",
     projectId: "pecuariopro-98bb9",
     storageBucket: "pecuariopro-98bb9.appspot.com",
     messagingSenderId: "60716147983",
-    appId: "1:60716147983:web:8d48321037ce86fafe4a7a"
+    appId: "1:60716147983:web:8d48321037ce86fafe4a7a"*/
+    apiKey: "AIzaSyBEJ1Uy6lH90NL8GfHZBglrHeFMNAj7GYQ",
+    authDomain: "pecuario-pro-2024-02.firebaseapp.com",
+    projectId: "pecuario-pro-2024-02",
+    storageBucket: "pecuario-pro-2024-02.appspot.com",
+    messagingSenderId: "252617488427",
+    appId: "1:252617488427:web:bd6caf3c40158201b9926e"
 };
 const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);

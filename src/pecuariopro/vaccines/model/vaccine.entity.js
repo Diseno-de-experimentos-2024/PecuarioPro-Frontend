@@ -1,11 +1,14 @@
 
 export class Vaccine {
-    constructor(id, name, reason, date, code) {
+    constructor(id, name, reason, date, code,dose,userId,bovineId) {
         this.id = id;
         this.name = name;
         this.reason = reason;
         this.date = date;
         this.code = code;
+        this.dose = dose;
+        this.userId= userId;
+        this.bovineId= bovineId;
     }
     static fromDisplayableVaccine(displayableVaccine) {
         return new Vaccine (
@@ -13,7 +16,10 @@ export class Vaccine {
             displayableVaccine.name,
             displayableVaccine.reason,
             displayableVaccine.date,
-            displayableVaccine.code
+            displayableVaccine.code,
+            displayableVaccine.dose,
+            displayableVaccine.userId,
+            displayableVaccine.bovineId,
         );
     }
 
@@ -23,7 +29,10 @@ export class Vaccine {
             name: vaccine.name,
             reason: vaccine.reason,
             date: vaccine.date,
-            code: vaccine.code
+            code: vaccine.code,
+            dose: vaccine.dose,
+            userId : vaccine.userId,
+            bovineId : vaccine.bovineId,
         };
     }
 

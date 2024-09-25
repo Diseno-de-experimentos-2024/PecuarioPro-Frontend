@@ -98,7 +98,6 @@ import http from "../../../shared/services/http-common.js";
           <div class="product-list-item">
             <div class="product-details">
               <h5 class="product-title">{{ item.name }}</h5>
-              <img :src="item.image" alt="Item Image" class="product-image" @error="onImageError"/>
               <div class="product-quantity">Quantity: {{ item.quantity }}</div>
             </div>
             <div class="product-action">
@@ -152,13 +151,17 @@ import http from "../../../shared/services/http-common.js";
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import {AuthenticationService} from "../../../iam/services/authentication.service.js";
+import {useAuthenticationStore} from "../../../iam/services/authentication.store.js";
 
 export default {
   setup() {
+
     const displayDialog = ref(false);
     const displayAddDialog = ref(false);
     const displayEditDialog = ref(false);
     const selectedInventory = ref('');
+
     const items = ref([]);
     const newItem = ref({
       name: '',
@@ -196,18 +199,31 @@ export default {
       console.log(`Dialog state: ${displayDialog.value}`);
     };
 
+    const route = 'http://localhost:5147/api/v1/inventory/'
+    const userId = useAuthenticationStore().currentUserId;
+
+    const authToken = localStorage.getItem('token');
+
     const router = useRouter();
     const loadInventoryData = async (title) => {
       console.log(`Loading inventory data for ${title}`);
       try {
         if (title === 'Food') {
-          const response = await axios.get('http://localhost:3000/inventory');
+          const response = await axios.get(route + userId + '/feed-supplies', {
+            headers: {
+              Authorization: `Bearer ${authToken}`
+            }
+          });
           items.value = response.data;
           console.log('Loaded food items:', items.value);
         } else if (title === 'Vaccine') {
           await router.push('/vaccine');
         } else if (title === 'Tools') {
-          const response = await axios.get('http://localhost:3000/inventory');
+          const response = await axios.get(route + userId + '/tools', {
+            headers: {
+              Authorization: `Bearer ${authToken}`
+            }
+          });
           items.value = response.data;
           console.log('Loaded tools items:', items.value);
         }
@@ -222,8 +238,44 @@ export default {
     };
 
     const saveNewItem = async () => {
-      const endpoint = selectedInventory.value.toLowerCase();
-      await axios.post(`http://localhost:3000/inventory${endpoint}`, newItem.value);
+      if (selectedInventory.value === "Food") {
+        const endpoint = "/feed-supplies";
+        console.log(newItem.value);
+        const newItemData = {
+          inventoryId: userId,
+          name: newItem.value.name,
+          unitPrice: 1,
+          quantity: newItem.value.quantity,
+          purchaseDate: "2024-09-25",
+          supplier: "supplier",
+          unitOfMeasurement: "a",
+          status: "Available"
+        };
+        await axios.post(route + userId + endpoint, newItemData, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+      }
+      else if (selectedInventory.value === "Tools"){
+        const endpoint = "/tools";
+        const newItemData = {
+          inventoryId: userId,
+          name: newItem.value.name,
+          unitPrice: 1,
+          quantity: newItem.value.quantity,
+          purchaseDate: "2024-09-25",
+          supplier: "supplier",
+          status: "Available",
+          condition: "New"
+        };
+        await axios.post(route + userId + endpoint, newItemData, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+      }
+
       await loadInventoryData(selectedInventory.value);
       closeAddDialog();
     };

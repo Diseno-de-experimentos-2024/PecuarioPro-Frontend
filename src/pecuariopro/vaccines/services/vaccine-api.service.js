@@ -26,12 +26,16 @@ export class VaccinesApiService {
         });
     }
 
-    update(id, vaccineResource, authToken) {
+    /*update(id, vaccineResource, authToken) {
         return http.put(`/vaccines/${id}`, vaccineResource, {
             headers: {
                 'Authorization': `Bearer ${authToken}`
             }
         });
+    }*/
+
+    update(id, vaccineResource) {
+        return http.put(`/vaccines/${id}`,vaccineResource);
     }
 
     delete(id) {

@@ -28,7 +28,8 @@ export default {
 
       this.bovines = response.data;
 
-    })
+    });
+
   },
   methods: {
     canceledEventHandler() {
@@ -39,6 +40,7 @@ export default {
       this.submitted = true;
       // Verify if the required fields are filled
       const authenticationStore2 = useAuthenticationStore();
+      this.item.bovineId = this.bovine.bovineId;
 
       this.item.userId = authenticationStore2.currentUserId;
       let fullDate = new Date(this.item.date);

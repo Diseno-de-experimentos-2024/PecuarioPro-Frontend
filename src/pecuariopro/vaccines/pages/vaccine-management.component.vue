@@ -13,6 +13,7 @@ export default {
       title: { singular: 'Vaccine', plural: 'Vaccines' },
       vaccines: [],
       vaccine: {},
+      bovine:{},
       selectedVaccines: [],
       vaccineService: null,
       createAndEditDialogIsVisible: false,
@@ -47,6 +48,7 @@ export default {
       this.submitted = false;
       this.isEdit = true;
       this.createAndEditDialogIsVisible = true;
+      this.bovine
     },
     onDeleteItemEventHandler(item) {
       this.vaccine = item;
@@ -87,6 +89,7 @@ export default {
     },
     updateVaccine() {
       this.vaccine = Vaccine.fromDisplayableVaccine(this.vaccine);
+      console.log(this.vaccine);
       this.vaccineService.update(this.vaccine.id, this.vaccine)
           .then((response) => {
             this.vaccines[this.findIndexById(response.data.id)] = Vaccine.toDisplayableVaccine(response.data);
@@ -131,6 +134,8 @@ export default {
       let vaccines = response.data;
       this.vaccines = vaccines.map((vaccine) => Vaccine.toDisplayableVaccine(vaccine));
     });
+
+
   },
   mounted() {
     this.hideWelcomeMessage();

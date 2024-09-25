@@ -14,13 +14,13 @@ export class BatchApiService{
     }
 
 
-    update(id, batch){
-        return http.put(`/batches/${id}`,batch);
+    update(id,campaignId, batch){
+        return http.put(`campaigns/${campaignId}/batches/${id}`,batch);
     }
 
 
     delete(campaignId,id){
-        return http.delete(`/campaigns/${campaignId}/batches/${id}`);
+        return http.delete(`/campaigns/${campaignId}/batches`,id);
     }
 
     findByName(name){

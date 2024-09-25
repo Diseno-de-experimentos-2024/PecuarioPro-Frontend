@@ -133,7 +133,7 @@ export default {
       this.submitted = true;
       if (this.batch.name.trim()) {
         if (item.id) {
-          console.log("soy el update");
+          console.log("soy el update",this.item);
           this.updateBatch();
         } else {
           console.log("soy el crear");
@@ -192,11 +192,20 @@ export default {
 
     },
     updateBatch(){
-      this.batch = Batch.fromDisplayableBatch(this.batch);
-      this.batchesService.update(this.batch.id, this.batch)
+
+      this.batch.origin=this.origin;
+      this.batch.campaignId= this.campaignId;
+      this.department=this.departments.find(department=>department.name === this.batch.origin.department);
+      this.city=this.cities.find(city => city.name===this.batch.origin.city);
+      this.district=this.districts.find(district => district.name === this.batch.origin.district);
+      this.batch.campaignId = parseInt(this.batch.campaignId);
+      this.batch = Batch.fromDisplayableBatch(this.batch,this.department.id,this.city.id,this.district.id);
+
+
+      this.batchesService.update(this.batch.id,this.batch.campaignId, this.batch)
           .then((response)=>{
-            this.batches[this.findIndexById(response.data.id)] =
-                Batch.toDisplayableBatch(response.data);
+            this.batches[this.findIndexById(response.data.id)] = response.data;
+                // Batch.toDisplayableBatch(response.data);
             this.notifySuccessfulAction("Batch Updated");
 
           });
